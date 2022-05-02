@@ -13,10 +13,6 @@ public class Tree {
         this.right = null;
     }
 
-    public Integer getValue() {
-        return this.value;
-    }
-
     public Tree getLeft() {
         return this.left;
     }
@@ -37,6 +33,7 @@ public class Tree {
         this.right = right;
     }
 
+    // Complejidad: O(h)
     public void add(Integer newValue) {
         if (this.value == null)
             this.value = newValue;
@@ -55,14 +52,17 @@ public class Tree {
         }
     }
 
+    // Complejidad: O(1)
     public Integer getRoot() {
         return this.value;
     }
 
+    // Complejidad: O(1)
     public boolean isEmpty() {
         return this.value == null;
     }
 
+    // Complejidad: O(n)
     public int getHeight() {
         if (this.value == null)
             return -1;
@@ -77,6 +77,7 @@ public class Tree {
         return 1 + (left >= right ? left : right);
     }
 
+    // Complejidad: O(n)
     public ArrayList<Integer> getFrontera() {
         if (this.left == null && this.right == null) {
             ArrayList<Integer> result = new ArrayList<Integer>();
@@ -92,6 +93,7 @@ public class Tree {
         return result;
     }
 
+    // Complejidad: O(n)
     public ArrayList<Integer> getLongestBranch() {
         if (this.left == null && this.right == null) {
             ArrayList<Integer> result = new ArrayList<Integer>();
@@ -127,12 +129,14 @@ public class Tree {
         return false;
     }
 
+    // Complejidad: O(h)
     public Integer getMaxElement() {
         if (this.right == null)
             return this.value;
         return this.right.getMaxElement();
     }
 
+    // Complejidad: O(n)
     public ArrayList<Integer> getElemAtLevel(int level) {
         ArrayList<Integer> result = new ArrayList<Integer>();
         if (level == 0) {
@@ -147,6 +151,7 @@ public class Tree {
         return result;
     }
 
+    // Complejidad: O(n)
     public void printPreOrder() {
         System.out.print(this.value + " ");
         if (this.left != null)
@@ -155,6 +160,7 @@ public class Tree {
             this.right.printPreOrder();
     }
 
+    // Complejidad: O(n)
     public void printInOrder() {
         if (this.left != null)
             this.left.printInOrder();
@@ -163,6 +169,7 @@ public class Tree {
             this.right.printInOrder();
     }
 
+    // Complejidad: O(n)
     public void printPostOrder() {
         if (this.left != null)
             this.left.printPostOrder();
@@ -171,40 +178,14 @@ public class Tree {
         System.out.print(this.value + " ");
     }
 
-    // public boolean delete(Integer element) {
-    // if (this.value == element) {
-    // // Sin hijos
-    // if (this.left == null && this.right == null) {
-    // this.value = null; // MAAAL
-    // return true;
-    // } else if (this.left != null)
-    // return true;
-    // return true;
-    // }
-    // // Voy hacia la derecha
-    // else if (this.value < element) {
-    // if (this.right != null)
-    // return this.right.delete(element);
-    // else
-    // return false;
-    // }
-    // // Voy hacia la izquierda
-    // // else if (this.value > element) {
-    // else {
-    // if (this.left != null)
-    // return this.left.delete(element);
-    // else
-    // return false;
-    // }
-    // }
-
+    // Complejidad: O(h)
     public boolean delete(Integer element) {
         // VOY HACIA DERECHA
         if (this.value < element) {
             if (this.right == null)
                 return false;
             else {
-                if (this.right.getValue() == element) {
+                if (this.right.getRoot() == element) {
                     if (this.right.getLeft() == null && this.right.getRight() == null) {
                         this.right = null;
                         return true;
@@ -215,7 +196,7 @@ public class Tree {
                         this.right = this.right.getLeft();
                         return true;
                     } else {
-                        Integer aux = getNMI(this.right).getValue();
+                        Integer aux = getNMI(this.right).getRoot();
                         this.right.delete(aux);
                         this.right.setValue(aux);
                         return true;
@@ -230,7 +211,7 @@ public class Tree {
             if (this.left == null)
                 return false;
             else {
-                if (this.left.getValue() == element) {
+                if (this.left.getRoot() == element) {
                     if (this.left.getLeft() == null && this.left.getRight() == null) {
                         this.left = null;
                         return true;
@@ -241,7 +222,7 @@ public class Tree {
                         this.left = this.left.getLeft();
                         return true;
                     } else {
-                        Integer aux = getNMD(this.left).getValue();
+                        Integer aux = getNMD(this.left).getRoot();
                         this.left.delete(aux);
                         this.left.setValue(aux);
                         return true;
@@ -257,17 +238,17 @@ public class Tree {
                 this.value = null;
                 return true;
             } else if (this.left != null && this.right == null) {
-                this.value = this.left.getValue();
+                this.value = this.left.getRoot();
                 this.right = this.left.getRight();
                 this.left = this.left.getLeft();
                 return true;
             } else if (this.left == null && this.right != null) {
-                this.value = this.right.getValue();
+                this.value = this.right.getRoot();
                 this.left = this.right.getLeft();
                 this.right = this.right.getRight();
                 return true;
             } else {
-                Integer aux = getNMD(this.left).getValue();
+                Integer aux = getNMD(this.left).getRoot();
                 this.left.delete(aux);
                 this.value = aux;
                 return true;
@@ -275,12 +256,14 @@ public class Tree {
         }
     }
 
+    // Complejidad: O(h)
     public Tree getNMI(Tree current) {
         if (current.getLeft() == null)
             return current;
         return current.getLeft().getNMI(current.getLeft());
     }
 
+    // Complejidad: O(h)
     public Tree getNMD(Tree current) {
         if (current.getRight() == null)
             return current;
